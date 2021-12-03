@@ -1011,12 +1011,44 @@ func main() {
 		"forward 6",
 	}
 
+	// directions := [...]string{
+	// 	"forward 5",
+	// 	"down 5",
+	// 	"forward 8",
+	// 	"up 3",
+	// 	"down 8",
+	// 	"forward 2",
+	// }
+
 	var horizontal int
 	var depth int
+	var aim int
 
 	// fmt.Println(split[0])
 	// fmt.Println(split[1])
 
+	// day 2, part 1
+	// for i := 0; i < len(directions); i++ {
+	// 	split := strings.Split(directions[i], " ")
+
+	// 	direction := split[0]
+	// 	movementStr := split[1]
+
+	// 	movement, _ := strconv.Atoi(movementStr)
+
+	// 	switch {
+	// 	case direction == "forward":
+	// 		horizontal += movement
+	// 	case direction == "down":
+	// 		depth += movement
+	// 	case direction == "up":
+	// 		depth -= movement
+	// 	default:
+	// 		fmt.Println("Not higher or lower")
+	// 	}
+	// }
+
+	// day 2, part 2
 	for i := 0; i < len(directions); i++ {
 		split := strings.Split(directions[i], " ")
 
@@ -1028,10 +1060,11 @@ func main() {
 		switch {
 		case direction == "forward":
 			horizontal += movement
+			depth += aim * movement
 		case direction == "down":
-			depth += movement
+			aim += movement
 		case direction == "up":
-			depth -= movement
+			aim -= movement
 		default:
 			fmt.Println("Not higher or lower")
 		}
