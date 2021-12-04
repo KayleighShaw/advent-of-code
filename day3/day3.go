@@ -53,8 +53,6 @@ func getMostCommonValue(array []string) (string, string) {
 			}
 		}
 	}
-	fmt.Println("Line: ")
-	fmt.Println(slice)
 
 	// for each line, returns a string for most and least common
 	for _, n := range slice {
@@ -74,30 +72,10 @@ func getMostCommonValue(array []string) (string, string) {
 }
 
 func main() {
-	// day 3, part 1
-	// gammarateBinString := ""
-	// epsilonBinString := ""
-
-	// gammarate, _ := strconv.ParseInt(gammarateBinString, 2, 64) // 22
-	// epsilonrate, _ := strconv.ParseInt(epsilonBinString, 2, 64) // 9
-	// powerConsumption := gammarate * epsilonrate
-	// fmt.Println(powerConsumption)
-
 	binaryArray := getDataArray()
 	bitWidth := len(binaryArray[0])
 
-	fmt.Println("Binary Array")
-	fmt.Println(binaryArray)
-	fmt.Println("________________________________")
-	fmt.Println("Culled Array")
-	fmt.Println(cullArray(0, '1', binaryArray))
-	// numLines := len(binaryArray)
-
 	mostCommon, leastCommon := getMostCommonValue(binaryArray)
-	fmt.Printf("Most Common: ")
-	fmt.Println(mostCommon)
-	fmt.Printf("Least Common: ")
-	fmt.Println(leastCommon)
 
 	filteredArray := binaryArray
 
@@ -109,7 +87,6 @@ func main() {
 		mostCommon, leastCommon = getMostCommonValue(filteredArray)
 	}
 
-	fmt.Println(filteredArray)
 	oxyRate, _ := strconv.ParseInt(filteredArray[0], 2, 64)
 	fmt.Print("Oxygen Generator Rate: ")
 	fmt.Println(oxyRate)
@@ -124,7 +101,6 @@ func main() {
 		mostCommon, leastCommon = getMostCommonValue(filteredArray)
 	}
 
-	fmt.Println(filteredArray)
 	scrubRate, _ := strconv.ParseInt(filteredArray[0], 2, 64)
 	fmt.Print("CO2 Scrubber Rate: ")
 	fmt.Println(scrubRate)
