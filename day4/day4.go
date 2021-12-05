@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 )
 
 func getDataArray() []string {
-	file, err := os.Open("day4test.txt")
+	file, err := os.Open("input.txt")
 	if err != nil {
 		log.Fatalf("Failed to open file")
 	}
@@ -26,11 +27,11 @@ func getDataArray() []string {
 	return text
 }
 
-func removeEmpty(in []string) []string {
+func removeEmpty(in []string, remove string) []string {
 	out := make([]string, 0)
 
 	for _, s := range in {
-		if s != "" {
+		if s != remove {
 			out = append(out, s)
 		}
 	}
@@ -55,7 +56,7 @@ func getAllBoards(inputLines []string) [][][]string {
 
 		slice := make([]string, 0)
 		slice = strings.Split(s, " ")
-		newSlice := removeEmpty(slice)
+		newSlice := removeEmpty(slice, "")
 
 		currentBoard = append(currentBoard, newSlice)
 	}
@@ -67,16 +68,72 @@ func getAllBoards(inputLines []string) [][][]string {
 	return allBoards
 }
 
-func checkWin() {
+func rowWin(board [][]string) bool {
+	lengthBoard := len(board[0])
+	for row := 0; row < lengthBoard; row++ {
+		if board[row][0] != "X" {
+			continue
+		}
 
+		for col := 0; col < lengthBoard; col++ {
+			if board[row][col] != "X" {
+				break
+			}
+
+			if col == lengthBoard-1 {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func columnWin(board [][]string) bool {
+	lengthBoard := len(board[0])
+	for col := 0; col < lengthBoard; col++ {
+		if board[0][col] != "X" {
+			continue
+		}
+
+		for row := 0; row < lengthBoard; row++ {
+			if board[row][col] != "X" {
+				break
+			}
+
+			if row == lengthBoard-1 {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func checkWin(boards [][][]string) (bool, int) {
+	for i, b := range boards {
+		if b == nil {
+			continue
+		}
+		colWin := columnWin(b)
+		if colWin == true {
+			return true, i
+		}
+		rowWin := rowWin(b)
+		if rowWin == true {
+			return true, i
+		}
+	}
+	return false, -1
 }
 
 func markNumber(boards [][][]string, bingoNumber string) [][][]string {
 	numBoards := len(boards)
-	xyMax := len(boards[0])
 	var x, y, z int
 
 	for z = 0; z < numBoards; z++ {
+		if boards[z] == nil {
+			continue
+		}
+		xyMax := len(boards[z])
 		for y = 0; y < xyMax; y++ {
 			for x = 0; x < xyMax; x++ {
 				if boards[z][y][x] == bingoNumber {
@@ -89,15 +146,46 @@ func markNumber(boards [][][]string, bingoNumber string) [][][]string {
 	return boards
 }
 
+func sumMDArray(board [][]string) int {
+	xyMax := len(board[0])
+	var x, y, sum int
+
+	for x = 0; x < xyMax; x++ {
+		for y = 0; y < xyMax; y++ {
+			if board[x][y] != "X" {
+				number, _ := strconv.ParseInt(board[x][y], 10, 64)
+				sum += int(number)
+			}
+		}
+	}
+	return sum
+}
+
 func main() {
 	array := getDataArray()
 	bingoNumbers := strings.Split(array[0], ",")
 	allBoards := getAllBoards(array)
+	var count int
 
 	for _, b := range bingoNumbers {
 		allBoards = markNumber(allBoards, b)
+
+		for moreWinners := true; moreWinners; {
+			isWinner, indexOfBoard := checkWin(allBoards)
+			if isWinner == true {
+				count++
+				fmt.Print("Win count: ")
+				fmt.Println(count)
+				fmt.Print("The board index is: ")
+				fmt.Println(indexOfBoard)
+				finalNumber, _ := strconv.ParseInt(b, 10, 64)
+				score := sumMDArray(allBoards[indexOfBoard]) * int(finalNumber)
+				allBoards[indexOfBoard] = nil
+				fmt.Print("The score is: ")
+				fmt.Println(score)
+			} else {
+				moreWinners = false
+			}
+		}
 	}
-
-	fmt.Println(allBoards)
-
 }
