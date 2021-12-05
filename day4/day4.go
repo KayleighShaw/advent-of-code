@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -66,16 +67,37 @@ func getAllBoards(inputLines []string) [][][]string {
 	return allBoards
 }
 
-func checkBoard(boards []int, bingoNumber int) {
+func checkWin() {
 
+}
+
+func markNumber(boards [][][]string, bingoNumber string) [][][]string {
+	numBoards := len(boards)
+	xyMax := len(boards[0])
+	var x, y, z int
+
+	for z = 0; z < numBoards; z++ {
+		for y = 0; y < xyMax; y++ {
+			for x = 0; x < xyMax; x++ {
+				if boards[z][y][x] == bingoNumber {
+					boards[z][y][x] = "X"
+				}
+			}
+		}
+	}
+
+	return boards
 }
 
 func main() {
 	array := getDataArray()
-	// bingoNumbers := strings.Split(array[0], ",")
-	// fmt.Println(bingoNumbers)
+	bingoNumbers := strings.Split(array[0], ",")
+	allBoards := getAllBoards(array)
 
-	getAllBoards(array)
-	// iterate over bingoNumbers and check each
+	for _, b := range bingoNumbers {
+		allBoards = markNumber(allBoards, b)
+	}
+
+	fmt.Println(allBoards)
 
 }
