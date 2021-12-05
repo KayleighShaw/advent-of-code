@@ -1066,7 +1066,7 @@ func main() {
 		case direction == "up":
 			aim -= movement
 		default:
-			fmt.Println("Not higher or lower")
+			fmt.Println("Error")
 		}
 	}
 

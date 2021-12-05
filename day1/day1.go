@@ -2012,26 +2012,11 @@ func main() {
 	var lower int
 
 	// day 1 - part 1
-	// for i := 1; i < len(depth); i++ {
-	// 	var current int
-	// 	var previous int
-	// 	current = depth[i]
-	// 	previous = depth[i-1]
-	// 	switch {
-	// 	case current < previous:
-	// 		lower++
-	// 	case depth[i] > depth[i-1]:
-	// 		higher++
-	// 	default:
-	// 		fmt.Println("Not higher or lower")
-	// 	}
-	// }
-
-	// day 1 - part 2
-	for i := 1; i < len(depth)-2; i++ {
-		current := depth[i] + depth[i+1] + depth[i+2]
-		previous := depth[i-1] + depth[i] + depth[i+1]
-
+	for i := 1; i < len(depth); i++ {
+		var current int
+		var previous int
+		current = depth[i]
+		previous = depth[i-1]
 		switch {
 		case current < previous:
 			lower++
@@ -2041,6 +2026,21 @@ func main() {
 			fmt.Println("Not higher or lower")
 		}
 	}
+
+	// day 1 - part 2
+	// for i := 1; i < len(depth)-2; i++ {
+	// 	current := depth[i] + depth[i+1] + depth[i+2]
+	// 	previous := depth[i-1] + depth[i] + depth[i+1]
+
+	// 	switch {
+	// 	case current < previous:
+	// 		lower++
+	// 	case current > previous:
+	// 		higher++
+	// 	default:
+	// 		fmt.Println("Out of range")
+	// 	}
+	// }
 
 	fmt.Println(higher)
 	fmt.Println(lower)
