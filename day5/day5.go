@@ -79,46 +79,37 @@ func makeGrid(maxCoord int) [][]int {
 }
 
 func markGrid(grid [][]int, move Movement) [][]int {
-	incrementer := 1
+	incrementerX := 0
+	incrementerY := 0
 	// fmt.Printf("sX: %d, eX: %d, sY: %d, eY: %d\n", move.StartX, move.EndX, move.StartY, move.EndY)
 
-	if move.StartX > move.EndX || move.StartY > move.EndY {
-		incrementer = -1
+	if move.StartX > move.EndX {
+		incrementerX = -1
+	} else if move.StartX < move.EndX {
+		incrementerX = 1
 	}
 
-	if move.StartX == move.EndX {
-		// movement along y axis
-		for y := move.StartY; ; {
-			lastRun := false
-			if y == move.EndY {
-				lastRun = true
-			}
-			grid[move.StartX][y] += 1
-			// fmt.Printf("Marking: %d,%d\n", move.StartX, y)
-			y += incrementer
-			if lastRun {
-				break
-			}
-		}
-	} else if move.StartY == move.EndY {
-		// movement along x axis
-		for x := move.StartX; ; {
-			lastRun := false
-			if x == move.EndX {
-				lastRun = true
-			}
-			grid[x][move.StartY] += 1
-			// fmt.Printf("Marking: %d,%d\n", x, move.StartY)
-			x += incrementer
-			if lastRun {
-				break
-			}
-		}
-	} else {
-		// diagonal movement
-		// fmt.Println("Diagonal movement")
+	if move.StartY > move.EndY {
+		incrementerY = -1
+	} else if move.StartY < move.EndY {
+		incrementerY = 1
 	}
 
+	x := move.StartX
+	y := move.StartY
+	for {
+		lastRun := false
+		if y == move.EndY && x == move.EndX {
+			lastRun = true
+		}
+		grid[x][y] += 1
+		// fmt.Printf("Marking: %d,%d\n", move.StartX, y)
+		y += incrementerY
+		x += incrementerX
+		if lastRun {
+			break
+		}
+	}
 	return grid
 }
 
