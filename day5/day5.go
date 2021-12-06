@@ -34,7 +34,7 @@ func getLargest(m Movement) int {
 }
 
 func getMoveList() ([]Movement, int) {
-	file, err := os.Open("input.txt")
+	file, err := os.Open("day5input.txt")
 	if err != nil {
 		log.Fatalf("Failed to open file")
 	}
@@ -80,7 +80,7 @@ func makeGrid(maxCoord int) [][]int {
 
 func markGrid(grid [][]int, move Movement) [][]int {
 	incrementer := 1
-	fmt.Printf("sX: %d, eX: %d, sY: %d, eY: %d\n", move.StartX, move.EndX, move.StartY, move.EndY)
+	// fmt.Printf("sX: %d, eX: %d, sY: %d, eY: %d\n", move.StartX, move.EndX, move.StartY, move.EndY)
 
 	if move.StartX > move.EndX || move.StartY > move.EndY {
 		incrementer = -1
@@ -94,7 +94,7 @@ func markGrid(grid [][]int, move Movement) [][]int {
 				lastRun = true
 			}
 			grid[move.StartX][y] += 1
-			fmt.Printf("Marking: %d,%d\n", move.StartX, y)
+			// fmt.Printf("Marking: %d,%d\n", move.StartX, y)
 			y += incrementer
 			if lastRun {
 				break
@@ -108,7 +108,7 @@ func markGrid(grid [][]int, move Movement) [][]int {
 				lastRun = true
 			}
 			grid[x][move.StartY] += 1
-			fmt.Printf("Marking: %d,%d\n", x, move.StartY)
+			// fmt.Printf("Marking: %d,%d\n", x, move.StartY)
 			x += incrementer
 			if lastRun {
 				break
@@ -116,7 +116,7 @@ func markGrid(grid [][]int, move Movement) [][]int {
 		}
 	} else {
 		// diagonal movement
-		fmt.Println("Diagonal movement")
+		// fmt.Println("Diagonal movement")
 	}
 
 	return grid
@@ -134,13 +134,10 @@ func main() {
 
 	for i := 0; i <= maxCoord; i++ {
 		for j := 0; j <= maxCoord; j++ {
-			fmt.Print(grid[i][j])
-			fmt.Print(" ")
 			if grid[i][j] > 1 {
 				count++
 			}
 		}
-		fmt.Println("")
 	}
 	fmt.Printf("The count is: %d", count)
 }
