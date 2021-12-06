@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"os"
 	"regexp"
@@ -16,7 +15,24 @@ type Movement struct {
 	EndY   int
 }
 
-func getDataArray() []Movement {
+func getLargest(m Movement) int {
+	largest := m.StartX
+
+	if largest < m.StartY {
+		largest = m.StartY
+	}
+	if largest < m.EndX {
+		largest = m.EndX
+	}
+
+	if largest < m.EndY {
+		largest = m.EndY
+	}
+
+	return largest
+}
+
+func getMoveList() ([]Movement, int) {
 	file, err := os.Open("input.txt")
 	if err != nil {
 		log.Fatalf("Failed to open file")
@@ -32,6 +48,7 @@ func getDataArray() []Movement {
 
 	re := regexp.MustCompile(`(\d*),(\d*)\s\-\>\s(\d*),(\d*)`)
 	var moveList []Movement
+	var largestNumber int
 
 	for i := range text {
 		results := re.FindStringSubmatch(text[i])
@@ -40,14 +57,36 @@ func getDataArray() []Movement {
 		currentMove.StartY, _ = strconv.Atoi(results[2])
 		currentMove.EndX, _ = strconv.Atoi(results[3])
 		currentMove.EndY, _ = strconv.Atoi(results[4])
+		currentLargest := getLargest(currentMove)
+		if currentLargest > largestNumber {
+			largestNumber = currentLargest
+		}
 		moveList = append(moveList, currentMove)
 	}
 
-	fmt.Print(moveList)
 	file.Close()
-	return moveList
+	return moveList, largestNumber
+}
+
+func makeGrid(maxCoord int) [][]int {
+	grid := make([][]int, maxCoord)
+
+	for i := 0; i < maxCoord; i++ {
+		grid[i] = make([]int, maxCoord)
+	}
+	return grid
+}
+
+func markGrid(grid [][]int, move Movement) [][]int {
+
 }
 
 func main() {
-	getDataArray()
+	moveList, maxCoord := getMoveList()
+	grid := makeGrid(maxCoord)
+
+	for _, m := range moveList {
+		grid = markGrid(grid, m)
+	}
+
 }
