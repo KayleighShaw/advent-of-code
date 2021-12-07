@@ -10,8 +10,8 @@ import (
 )
 
 func getDataArray() []int {
-	// file, err := os.Open("input.txt")
-	file, err := os.Open("day7test.txt")
+	file, err := os.Open("input.txt")
+	// file, err := os.Open("day7test.txt")
 	if err != nil {
 		log.Fatalf("Failed to open file")
 	}
@@ -48,12 +48,29 @@ func sumList(list []int) int {
 
 func calculateFuelConsumption(crabArray []int, position int) int {
 	fuelConsumption := make([]int, 0)
+
 	for _, c := range crabArray {
-		if c > position {
-			fuelConsumption = append(fuelConsumption, c-position)
+		if c > position { // overall movement
+			fuelCost := 1            // increments each movement
+			var fuelUsed int         // overall usage
+			movement := c - position // 11
+
+			for i := 0; i < movement; i++ {
+				fuelUsed += fuelCost
+				fuelCost++
+			}
+			fuelConsumption = append(fuelConsumption, fuelUsed)
 		}
 		if c < position {
-			fuelConsumption = append(fuelConsumption, position-c)
+			fuelCost := 1            // increments each movement
+			var fuelUsed int         // overall usage
+			movement := position - c // 4
+
+			for i := 0; i < movement; i++ {
+				fuelUsed += fuelCost
+				fuelCost++
+			}
+			fuelConsumption = append(fuelConsumption, fuelUsed)
 		}
 		if c == position {
 			fuelConsumption = append(fuelConsumption, 0)
