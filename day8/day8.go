@@ -47,8 +47,6 @@ func getDataArray() [][]string {
 		mainArray = append(mainArray, outputArray)
 	}
 
-	// fmt.Print(mainArray[0])
-
 	file.Close()
 	return mainArray
 }
@@ -56,11 +54,6 @@ func getDataArray() [][]string {
 func main() {
 	array := getDataArray()
 	fmt.Println(array)
-	// fmt.Println(array[1])
-	// fmt.Println(array[2])
-	// fmt.Println(array[3])
-
-	// newArray := [4]string{"cg", "cg", "fdcagb", "cbg"}
 
 	count := 0
 
